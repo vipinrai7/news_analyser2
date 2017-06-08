@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% block head %}
+		{{super()}}
+		<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+	{% endblock %}
+
+{% block title %}News Bot{% endblock %}
+
+{% block content %}
+<div class="page-header container">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %}Guest{% endif %} Pick your sources!</h1>
+</div>
+<div class="container">
+<div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 200 ,"gutter":30 }'>
+	{% for sources in data %}
+		<div class="grid-item" style="margin-bottom: 20px;padding: 10px;">
+			<img src="{{sources['url']}}" style="width:150px;height:150px;display: flex; align-items: center; justify-content: center;"/>
+				<h4 style="display: flex; align-items: center; justify-content: center;"> {{sources['name']}}</h4>
+				<p style="width:200px;display: flex; align-items: center; justify-content: center;">{{sources['desc']}}</p>
+				<button style="display: flex; align-items: center; justify-content: center;" class='btn btn-primary' onclick="location.href='/results/{{sources['ids']}}'" type='button'>View Results.</button>
+		</div>
+	{% endfor %}
+</div>
+</div>
+
+{% endblock %}

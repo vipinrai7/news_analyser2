@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% block head %}
+		{{super()}}
+		<script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
+	{% endblock %}
+{% block content %}
+<div class="page-header container">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %}Guest{% endif %}!</h1>
+</div>
+<div class="container">
+	<h1 style='display:flex;justify-content: center;'> Results. </h1>
+	<button style="display: flex; align-items: center; justify-content: center;" class='btn btn-primary' onclick="location.href='{{url}}'" type='button'>View Original Article.</button>
+	<div>
+		<h2> Sentiment: {{data['aggregate']['sentiment'] | capitalize}}</h2>
+   	<h2> Score {{data['aggregate']['score']}}</h2>
+      <canvas id="mychart" ></canvas>
+
+   </div>
+   	<h2> Negative Triggers</h2>
+      <hr>
+   	<div>
+         <div class="grid" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 20 ,"gutter":5 }'>
+   		    {% for words in data['negative']%}
+               <div class="grid-item" style="margin-bottom: 10px;padding: 5px;">
+   			      <h6> {{words['sentiment']}},</h6>
+               </div>
+   		    {% endfor %}
+         </div>
+   	</div>
+   	<h2> Positive Triggers</h2>
+      <hr>
+   	<div>
+         <div class="grid newswords" data-masonry='{ "itemSelector": ".grid-item", "columnWidth": 20 ,"gutter":5 }'>
+   	     {% for words in data['positive']%}
+            <div class="grid-item" style="margin-bottom: 10px;padding: 5px;">
+   			   <h6>{{words['sentiment']}},</h6>	
+            </div>
+   		 {% endfor %}
+         </div>
+   	</div>
+</div>
+      {%block script%}
+         <script>
+            var ctx = document.getElementById("mychart");
+            var myChart = new Chart(ctx, {
+                                          type: 'radar',
+                                          data: {
+                                             labels: ["M", "T", "W", "T", "F", "S", "S"],
+                                             datasets: [{
+                                                      label: 'apples',
+                                                      backgroundColor: "rgba(153,255,51,0.4)",
+                                                      borderColor: "rgba(153,255,51,1)",
+                                                      data: [12, 19, 3, 17, 28, 24, 7]
+                                                      }, {
+                                                            label: 'oranges',
+                                                            backgroundColor: "rgba(255,153,0,0.4)",
+                                                            borderColor: "rgba(255,153,0,1)",
+                                                            data: [30, 29, 5, 5, 20, 3, 10]
+                                             }]
+                                          }
+                                       });
+         </script>
+      {% endblock%} 
+{% endblock %}

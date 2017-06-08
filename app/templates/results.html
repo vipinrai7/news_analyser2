@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header container">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %} {% endif %} Here are your Headlines!</h1>
+</div>
+<div class="container">
+	<h1 style='display:flex;justify-content: center;'> Headlines </h1>
+	{% for articles in headlines %}
+		<div class="container-fluid">
+			<div class="headliner" style="	margin-bottom:15px !important;
+	                                        -webkit-box-shadow: 11px 32px 36px -13px rgba(0,0,0,0.84) !important;
+                                            -moz-box-shadow: 11px 32px 36px -13px rgba(0,0,0,0.84) !important;
+                                            box-shadow: 11px 32px 36px -13px rgba(0,0,0,0.84) !important;
+    										background-color: #F5FAFF !important;
+    										padding:10px;
+    										display:flex;">
+			<img style='height:200px;width:300px;'src="{{articles['image']}}" />
+			<div style='display:block;padding-left:10px;'>
+  			<h2> {{articles['title']}}</h2>
+  			<p>{{articles['time']}} </p>
+  			<p>{{articles['author']}} </p>
+  			<p>{{articles['description']}} </p>
+  			<button style="display: flex; align-items: center; justify-content: center;" class='btn btn-primary' onclick="location.href='/analytics/{{articles['url']}}'" type='button'>View Results.</button>
+  			</div>
+  		</div>
+  		</div>
+  	{% endfor %}
+  		
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}News Crawler {% endblock %}
+
+{% block content %}
+<div class="page-header container">
+    <h1>Hello, {% if current_user.is_authenticated %}{{ current_user.name }}{% else %}Guest{% endif %}!</h1>
+</div>
+<div class="container">
+	<div class="jumbotron">
+  		<h1>News Analytics Crawler.</h1>
+  		<p> News articleas are crawled based on their root URLS and are analysed for the predominant sentiment by searching for word embeddings. Please click the button to see what sources are available.</p>
+  		<button class='btn btn-success' onclick=" location.href='{{ url_for('auth.login') }}'" type='button'>Login</button>
+		<button class='btn btn-primary' onclick=" location.href='{{ url_for('auth.register') }}'" type='button'>Register</button>
+  	</div>
+</div>
+{% endblock %}
